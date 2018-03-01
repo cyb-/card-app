@@ -1,0 +1,3 @@
+<div id="flashes" ng-controller="FlashesController">
+  <div uib-alert ng-repeat="flash in flashes" ng-class="flash.getCssClass()" close="closeFlash($index)" dismiss-on-timeout="{{flash.getTimeout()}}" role="alert">{{flash.toString()}}</div>
+</div>

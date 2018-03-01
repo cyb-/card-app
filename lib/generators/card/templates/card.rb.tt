@@ -1,0 +1,32 @@
+<% module_namespacing do -%>
+class Cards::<%= class_name %> < Card
+  # Configurations =============================================================
+<% if options[:howlable] -%>
+  include Howlable
+<% end -%>
+<% if options[:spellable] -%>
+  include Spellable
+<% end -%>
+<% if options[:weaponable] -%>
+  include Weaponable
+<% end -%>
+
+  # Mongoid ====================================================================
+<% attributes.reject{|attr| attr.reference?}.each do |attribute| -%>
+  field :<%= attribute.name %>, type: <%= attribute.type_class %>
+<% end -%>
+
+  # Callbacks ==================================================================
+
+  # Validations ================================================================
+
+  # Class Methods ==============================================================
+
+  # Instance Methods ===========================================================
+
+  protected #===================================================================
+
+  private #=====================================================================
+
+end
+<% end -%>

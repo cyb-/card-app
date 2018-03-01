@@ -1,0 +1,26 @@
+@mixin transform($transforms...)
+{
+  -webkit-transform: $transforms;
+     -moz-transform: $transforms;
+      -ms-transform: $transforms; // IE9 only
+       -o-transform: $transforms;
+          transform: $transforms;
+}
+
+@mixin translateX($x)
+{
+  -webkit-transform: translateX($x);
+     -moz-transform: translateX($x);
+      -ms-transform: translateX($x); // IE9 only
+       -o-transform: translateX($x);
+          transform: translateX($x);
+}
+
+@mixin translateY($y)
+{
+  -webkit-transform: translateY($y);
+     -moz-transform: translateY($y);
+      -ms-transform: translateY($y); // IE9 only
+       -o-transform: translateY($y);
+          transform: translateY($y);
+}

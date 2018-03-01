@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>" ng-app="cardApp" ng-strict-di>
+  <head>
+    <title>CardApp</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+  </head>
+
+  <body>
+    <%= render "nav" %>
+
+    <div id="wrapper">
+      <%= render "flashes" %>
+
+      <main id="main" class="container-fluid" ng-view></main>
+    </div>
+
+    <%= render "templates" %>
+
+    <%= javascript_include_tag 'application' %>
+  </body>
+</html>

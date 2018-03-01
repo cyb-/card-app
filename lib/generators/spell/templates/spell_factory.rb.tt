@@ -1,0 +1,5 @@
+FactoryBot.define do
+  factory :spells_<%= class_name.underscore %>, parent: :spell, class: "Spells::<%= class_name %>" do
+
+  end
+end

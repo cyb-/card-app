@@ -1,0 +1,5 @@
+json.partial! "api/v1/cards/card", card: card
+<% if attributes.reject{|attr| attr.reference?}.any? -%>
+
+json.extract! card, <%= attributes.reject{|attr| attr.reference?}.map{|attribute| ":#{attribute.name}"}.join(", ") %>
+<% end -%>

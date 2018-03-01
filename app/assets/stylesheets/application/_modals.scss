@@ -1,0 +1,35 @@
+@media(max-width: 329px) // trick center vertically bootstrap modal under 330px
+{
+  .modal,
+  .modal.fade {
+    &.vertically-centered-xs {
+      .modal-dialog {
+        top: 50%;
+        @include translateY(-50%);
+        margin: #{$grid-gutter-width / 3} #{$grid-gutter-width / 6};
+      }
+    }
+  }
+}
+
+@media(min-width: 330px) // center vertically bootstrap modal (bug under 330px)
+{
+  .modal {
+    text-align: center;
+    padding: 0 !important;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+      margin-right: -4px;
+    }
+
+    .modal-dialog {
+      display: inline-block;
+      text-align: left;
+      vertical-align: middle;
+    }
+  }
+}

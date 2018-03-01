@@ -1,0 +1,81 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+fr:
+  hello: "Salut les gens !"
+  are_you_sure?: "Êtes vous sûr(e) ?"
+  ok: "Ok"
+  creating: "Création..."
+  fight: "Fight !"
+  replay: "Rejouer !"
+  new_game: "Nouvelle partie"
+  choose_players: "Choisissez les joueurs"
+  choose_player_1: "Joueur 1"
+  choose_player_2: "Joueur 2"
+  reload_cards: "Rafraichir les cartes"
+  select_card: "Selectionner la carte"
+  switch_card: "Changer de carte"
+  equality_sentence: "Égalité entre {{game.player1.toString()}} et {{game.player2.toString()}} pour cette partie !"
+  winned_sentence: "{{winner.toString()}} remporte la partie avec {{winnerCount}} combat(s) contre {{looser.toString()}} ({{looserCount}} combat(s)) !"
+  mongoid:
+    models:
+      card:
+        one: "Carte"
+        other: "Cartes"
+      cards/warrior:
+        one: "Guerrier"
+        other: "Guerriers"
+      cards/dragon:
+        one: "Dragon"
+        other: "Dragons"
+      cards/magus:
+        one: "Mage"
+        other: "Mages"
+      cards/elf:
+        one: "Elfe"
+        other: "Elfes"
+      cards/developer:
+        one: "Développeur"
+        other: "Développeurs"
+  activemodel:
+    models:
+      rule:
+        one: "Règle"
+        other: "Règles"
+      weapon:
+        one: "Arme"
+        other: "Armes"
+      howl:
+        one: "Hurlement"
+        other: "Hurlements"
+      spell:
+        one: "Sort"
+        other: "Sorts"

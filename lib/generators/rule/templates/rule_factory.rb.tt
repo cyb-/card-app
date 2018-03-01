@@ -1,0 +1,5 @@
+FactoryBot.define do
+  factory :rules_<%= class_name.underscore %>, parent: :rule, class: "Rules::<%= class_name %>" do
+
+  end
+end

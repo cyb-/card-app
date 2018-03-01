@@ -1,0 +1,33 @@
+class Rules::<%= class_name %> < Rule
+  # Configurations =============================================================
+  attr_reader <%= sorted_class_names.map{|c| ":#{c.underscore}"}.join(', ') %>
+
+  # Callbacks ==================================================================
+  after_initialize :identify_cards!
+
+  # Class Methods ==============================================================
+
+  # Instance Methods ===========================================================
+
+  protected #===================================================================
+
+  # def fight!
+  #   super
+  # end
+
+  # def fightable?
+  #   super
+  # end
+
+  private #=====================================================================
+
+  # def set_winner!
+  #   super
+  # end
+
+  def identify_cards!
+    @<%= sorted_class_names.first.underscore %> = @card1
+    @<%= sorted_class_names.last.underscore %> = @card2
+  end
+
+end

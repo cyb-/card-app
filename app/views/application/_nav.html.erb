@@ -1,0 +1,10 @@
+<nav id="nav" class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavController">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <%= link_to root_url, class: "navbar-brand" do %>
+        <%= icon "fas", "gamepad" %> <span class="hidden-xs"><%= t :hello %></span>
+      <% end %>
+    </div>
+    <button type="button" class="btn btn-success navbar-btn pull-right" ng-click="newGame()"><%= t :new_game %></button>
+  </div>
+</nav>

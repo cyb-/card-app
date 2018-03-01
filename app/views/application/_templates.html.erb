@@ -1,0 +1,141 @@
+<script type="text/ng-template" id="layout.html">
+  <div class="row" ng-if="isPlaying()">
+    <hand player="currentGame.player1" game-scope="$parent"></hand>
+    <hand player="currentGame.player2" game-scope="$parent"></hand>
+  </div>
+  <footer id="footer" class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid text-center">
+      <p class="navbar-text navbar-left" ng-if="currentGame && currentGame.player1.victoryCountFor(currentGame)"><%= icon "fas", "trophy" %> {{currentGame.player1.victoryCountFor(currentGame)}}</p>
+      <p class="navbar-text navbar-right" ng-if="currentGame && currentGame.player2.victoryCountFor(currentGame)">{{currentGame.player2.victoryCountFor(currentGame)}} <%= icon "fas", "trophy" %></p>
+      <button type="button" id="fight-btn" class="btn btn-warning navbar-btn" ng-click="runFight()" ng-disabled="!isFightable() || fighting"><%= icon "fas", "fighter-jet" %> <%= t :fight %></button>
+    </div>
+  </footer>
+</script>
+
+<script type="text/ng-template" id="hand.html">
+  <section class="col-xs-12 col-sm-6">
+    <header class="page-header">
+      <h3><%= icon "fas", "user" %> {{player.toString()}} <button type="button" class="btn btn-default btn-xs pull-right" title="<%= t :reload_cards %>" ng-click="loadCards()" ng-disabled="loading"><%= icon "fas", "sync-alt", "ng-class": "{'fa-spin': loading}" %></button></h3>
+    </header>
+    <div class="text-center hand-container">
+      <button type="button" class="btn btn-primary btn-lg" ng-click="selectCardModal()" ng-disabled="$parent.$parent.fighting" ng-if="!hand.card"><%= t :select_card %></button>
+      <article class="thumbnail text-left" ng-if="hand.card">
+        <header class="caption thumbnail-header">
+            <h3>{{hand.card.toString()}}</h3>
+            <h4><small>{{hand.card.type}}</small></h4>
+        </header>
+        <div class="caption">
+          <ul class="list-group">
+            <li class="list-group-item"><span class="badge">{{hand.card.health}}</span><%= icon "fas", "medkit" %> <%= t :health %></li>
+            <li class="list-group-item"><span class="badge">{{hand.card.strength}}</span><%= icon "fas", "hand-rock" %> <%= t :strength %></li>
+            <li class="list-group-item"><span class="badge">{{hand.card.shield}}</span><%= icon "fas", "shield-alt" %> <%= t :shield %></li>
+            <li class="list-group-item">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <strong><%= Howl.model_name.human %></strong>
+                  </div>
+                  <input type="text" class="form-control" ng-value="hand.card.howlName" ng-disabled="true" />
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <strong><%= Spell.model_name.human.pluralize %></strong>
+                  </div>
+                  <input type="text" class="form-control" ng-value="hand.card.spellNames.join(', ')" ng-disabled="true" />
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <strong><%= Weapon.model_name.human %></strong>
+                  </div>
+                  <input type="text" class="form-control" ng-value="hand.card.weaponName" ng-disabled="true" />
+                </div>
+              </div>
+            </li>
+          </ul>
+          <p class="text-center"><button type="button" class="btn btn-danger" ng-click="selectCardModal()" ng-disabled="$parent.$parent.fighting"><%= t :switch_card %></button></p>
+        </div>
+      </article>
+    </div>
+  </section>
+</script>
+
+<script type="text/ng-template" id="modals/cards.html">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+    <h4><%= icon "fas", "fighter-jet" %> <%= t :select_card %></h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div ng-repeat="card in player.cards" class="col-xs-12 col-sm-6 col-lg-4">
+        <article class="thumbnail">
+          <header class="caption thumbnail-header">
+            <h3>{{card.toString()}}</h3>
+            <h4><small>{{card.type}}</small></h4>
+          </header>
+          <div class="caption">
+            <ul class="list-group">
+              <li class="list-group-item"><span class="badge">{{card.health}}</span><%= icon "fas", "medkit" %> <%= t :health %></li>
+              <li class="list-group-item"><span class="badge">{{card.strength}}</span><%= icon "fas", "hand-rock" %> <%= t :strength %></li>
+              <li class="list-group-item"><span class="badge">{{card.shield}}</span><%= icon "fas", "shield-alt" %> <%= t :shield %></li>
+            </ul>
+            <p class="text-center"><button type="button" class="btn btn-success" ng-click="select($index)"><%= t :select_card %></button></p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="modals/new-game.html">
+  <%= form_for([:api, :v1, Game.new], html: { name: "gameForm" }) do %>
+    <div class="modal-header">
+      <h4><%= icon "fas", "users" %> <%= t :choose_players %></h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="control-label"></label>
+        <select class="form-control" ng-model="player1Id" ng-required="true" ng-disabled="saving">
+          <option value=""><%= t :choose_player_1 %></option>
+          <option ng-repeat="player in players" value="{{player.id}}" ng-disabled="player2Id == player.id">{{player.toString()}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="control-label"></label>
+        <select class="form-control" ng-model="player2Id" ng-required="true" ng-disabled="saving">
+          <option value=""><%= t :choose_player_2 %></option>
+          <option ng-repeat="player in players" value="{{player.id}}" ng-disabled="player1Id == player.id">{{player.toString()}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="saving || gameForm.$invalid">
+        <%= icon "fas", "spinner", class: "fa-spin", "ng-if": "saving" %>
+        <span ng-if="!saving"><%= t :ok %></span>
+        <span ng-if="saving"><%= t :creating %></span>
+      </button>
+    </div>
+  <% end %>
+</script>
+
+<script type="text/ng-template" id="modals/winner.html">
+  <div class="modal-header text-center">
+    <h3>{{game.player1.toString()}}</h3>
+    <h1>Vs</h1>
+    <h3>{{game.player2.toString()}}</h3>
+  </div>
+  <div class="modal-body">
+    <strong ng-if="winner"><%= t :winned_sentence %></strong>
+    <strong ng-if="!winner"><%= t :equality_sentence %></strong>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="replay()"><%= icon "fas", "rocket" %> <%= t :replay %></button>
+  </div>
+</script>

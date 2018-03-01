@@ -1,0 +1,5 @@
+FactoryBot.define do
+  factory :cards_<%= class_name.underscore %>, parent: :card, class: "Cards::<%= class_name %>" do
+
+  end
+end
