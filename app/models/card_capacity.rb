@@ -43,7 +43,7 @@ class CardCapacity
       card_value = card.send(plural_field)
       card_value.uniq.compact.select{|val| exists?(val)}.map{|val| card_capacity_instance_for!(val, card)}
     else
-      raise ArrgumentError, "Card must has a capacity attribute (`#{singular_name}' or `#{plural_name}')"
+      raise ArgumentError, "Card must has a capacity attribute (`#{singular_name}' or `#{plural_name}')"
     end
   end
 
